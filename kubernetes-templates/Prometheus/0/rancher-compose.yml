@@ -1,52 +1,13 @@
 version: '2'
 services:
-
-  ranch-eye:
-    upgrade_strategy:
-      start_first: true
-
-  node-exporter:
-    upgrade_strategy:
-      start_first: true
-
-  prometheus:
+  scheduler:
     scale: 1
+    start_on_create: true
     health_check:
-      port: 9090
-      interval: 5000
-      unhealthy_threshold: 3
-      request_line: ''
       healthy_threshold: 2
-      response_timeout: 5000
-
-  influxdb:
-    scale: 1
-    health_check:
-      port: 8086
-      interval: 5000
+      response_timeout: 2000
+      port: 80
       unhealthy_threshold: 3
-      request_line: ''
-      healthy_threshold: 2
-      response_timeout: 5000
-
-  grafana:
-    scale: 1
-    health_check:
-      port: 3000
-      interval: 5000
-      unhealthy_threshold: 3
-      request_line: ''
-      healthy_threshold: 2
-      response_timeout: 5000
-
-  prometheus-rancher-exporter:
-    scale: 1
-    upgrade_strategy:
-      start_first: true
-    health_check:
-      port: 9010
-      interval: 5000
-      unhealthy_threshold: 3
-      request_line: ''
-      healthy_threshold: 2
-      response_timeout: 5000
+      interval: 2000
+      strategy: recreate
+      request_line: GET /healthcheck HTTP/1.0
